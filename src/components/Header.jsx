@@ -25,12 +25,14 @@ import {
   FaSun,
   FaThList,
 } from "react-icons/fa";
-import React from "react";
+import React, { useState } from "react";
 import { LogoSvg } from "../icons";
 import Link from "next/link";
+import { ModalNewCompany } from "./ModalNewCompany";
 
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalNewCompany, setModalNewCompany] = useState(false);
   return (
     <Flex
       justify="center"
@@ -50,7 +52,7 @@ export function Header() {
       >
         <LogoSvg />
         <HStack display={{ base: "none", sm: "flex" }} spacing={2}>
-          <Menu />
+          <Menu setModalNewCompany={setModalNewCompany} />
         </HStack>
         <IconButton
           aria-label="Abrir menu de navegação"
@@ -72,17 +74,22 @@ export function Header() {
           <DrawerCloseButton m={3} />
           <DrawerBody onClick={onClose}>
             <VStack spacing={10}>
-              <Menu />
+              <Menu setModalNewCompany={setModalNewCompany} />
             </VStack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
+      <ModalNewCompany
+        setModalNewCompany={setModalNewCompany}
+        modalNewCompany={modalNewCompany}
+      />
     </Flex>
   );
 }
 
-function Menu() {
+function Menu({setModalNewCompany}) {
   const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <>
       <Button variant="ghost" onClick={toggleColorMode}>
@@ -99,7 +106,7 @@ function Menu() {
         </Button>
       </Link>
       <Button
-        onClick={() => alert("Nao ta pronto rsrs")}
+        onClick={() => setModalNewCompany(true)}
         leftIcon={<FaPlus />}
         color="white"
         bg="roxo"

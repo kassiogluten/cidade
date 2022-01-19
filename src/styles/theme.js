@@ -6,8 +6,6 @@ export const theme = extendTheme({
   fonts: {
     heading: "Montserrat",
     body: "Lato",
-    // heading: "CaviarDreams",
-    // body: "CaviarDreams",
   },
   colors: {
     roxo: "#5B3CD8",
