@@ -4,13 +4,16 @@ export const theme = extendTheme({
   initialColorMode: "dark",
   useSystemColorMode: false,
   fonts: {
-    heading: "Roboto",
-    body: "Roboto",
+    heading: "Montserrat",
+    body: "Lato",
     // heading: "CaviarDreams",
     // body: "CaviarDreams",
   },
   colors: {
-    rosaxoq: "#ff00ff",
+    roxo: "#5B3CD8",
+    roxog1: "#7055DD",
+    roxog2: "#3D22AA",
+    gradient: ["#7055DD", "#3D22AA"],
   },
   components: {
     Button: {
@@ -18,7 +21,6 @@ export const theme = extendTheme({
         _hover: {
           // textDecoration: "underline",
         },
-        
       },
     },
   },
@@ -38,9 +40,9 @@ export const theme = extendTheme({
         color: "var(--white)",
         lineHeight: "inherit", */
       },
-      button:{
+      button: {
         _focus: { outlineColor: "#00000011" },
-      }
+      },
     },
   },
 });

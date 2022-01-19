@@ -18,15 +18,29 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { FaMoon, FaSun, FaThList } from "react-icons/fa";
-import { FiMoon, FiSun } from "react-icons/fi";
+import {
+  FaBusinessTime,
+  FaMoon,
+  FaPlus,
+  FaSun,
+  FaThList,
+} from "react-icons/fa";
 import React from "react";
 import { LogoSvg } from "../icons";
+import Link from "next/link";
 
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Flex justify="center" align="center" w="100%" bg="#00000011" as="header">
+    <Flex
+      justify="center"
+      align="center"
+      w="100%"
+      bg="#00000011"
+      as="header"
+      borderBottom="1px"
+      borderBottomColor="roxog2"
+    >
       <Flex
         p="1rem"
         w="full"
@@ -35,7 +49,7 @@ export function Header() {
         justify="space-between"
       >
         <LogoSvg />
-        <HStack display={{ base: "none", sm: "flex" }} spacing={10}>
+        <HStack display={{ base: "none", sm: "flex" }} spacing={2}>
           <Menu />
         </HStack>
         <IconButton
@@ -56,16 +70,10 @@ export function Header() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton m={3} />
-          <DrawerHeader>Menu</DrawerHeader>
-
           <DrawerBody onClick={onClose}>
             <VStack spacing={10}>
               <Menu />
             </VStack>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Botao1
-            </Button>
-            <Button colorScheme="blue">Botao2</Button>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -80,15 +88,26 @@ function Menu() {
       <Button variant="ghost" onClick={toggleColorMode}>
         {colorMode === "light" ? <FaMoon /> : <FaSun />}
       </Button>
-      <Text as="a" href="#">
-        Link1
-      </Text>
-      <Text as="a" href="#">
-        Link2
-      </Text>
-      <Text as="a" href="#">
-        Link3
-      </Text>
+      <Link passHref href="/">
+        <Button variant="ghost" as="a">
+          Empresas
+        </Button>
+      </Link>
+      <Link passHref href="/contato">
+        <Button variant="ghost" as="a">
+          Contato
+        </Button>
+      </Link>
+      <Button
+        onClick={() => alert("Nao ta pronto rsrs")}
+        leftIcon={<FaPlus />}
+        color="white"
+        bg="roxo"
+        as="a"
+        href="#"
+      >
+        Adicionar empresa
+      </Button>
     </>
   );
 }

@@ -1,0 +1,38 @@
+export const empresas = [
+  {
+    name: "Suricato Agência de Publicidade",
+    id: 486,
+    category: "Agência de Publicidade",
+    whatsapp: "(33) 3321-5857",
+    address: "R. Cel. José Maria Fernandes, 09 - 1º andar - Dário Grossi",
+    city: "Caratinga",
+    instagram: "suricato.agencia",
+  },
+  {
+    name: "SSX Imóveis",
+    id: 745,
+    category: "Imobiliária",
+    whatsapp: "(33) 3322-3121",
+    address: "R. Sylvio da Silva Araújo, 09 ",
+    city: "Caratinga",
+    instagram: "ssximoveis",
+  },
+  {
+    name: "Supermercado Coelho Diniz",
+    id: 56789,
+    category: "Supermercado",
+    whatsapp: "(33) 3329-6000",
+    address: "Av. Moacir de Matos, 250",
+    city: "Caratinga",
+    instagram: "coelhodiniz",
+  },
+  {
+    name: "Prefeitura Municipal de Caratinga",
+    id: 2345,
+    category: "Serviço Público",
+    whatsapp: "(33) 3329-8000",
+    address: "Tv. Cel. Ferreira Santos, 01 - Centro",
+    city: "Caratinga",
+    instagram: "prefeitura",
+  },
+];
