@@ -29,10 +29,11 @@ import React, { useState } from "react";
 import { LogoSvg } from "../icons";
 import Link from "next/link";
 import { ModalNewCompany } from "./ModalNewCompany";
+import { useMyContext } from "../contexts/Context";
 
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modalNewCompany, setModalNewCompany] = useState(false);
+  const { modalNewCompany, setModalNewCompany, setSelectedId } = useMyContext();
   return (
     <Flex
       justify="center"
@@ -79,16 +80,14 @@ export function Header() {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-      <ModalNewCompany
-        setModalNewCompany={setModalNewCompany}
-        modalNewCompany={modalNewCompany}
-      />
+      <ModalNewCompany />
     </Flex>
   );
 }
 
-function Menu({setModalNewCompany}) {
+function Menu({ setModalNewCompany }) {
   const { colorMode, toggleColorMode } = useColorMode();
+  const {setSelectedCompany} = useMyContext()
 
   return (
     <>
@@ -106,7 +105,10 @@ function Menu({setModalNewCompany}) {
         </Button>
       </Link>
       <Button
-        onClick={() => setModalNewCompany(true)}
+        onClick={() => {
+          setSelectedCompany(null)
+          setModalNewCompany(true);
+        }}
         leftIcon={<FaPlus />}
         color="white"
         bg="roxo"

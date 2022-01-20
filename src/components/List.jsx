@@ -10,31 +10,25 @@ import {
   Spacer,
   Tag,
   Center,
+  IconButton,
 } from "@chakra-ui/react";
 
 import { empresas } from "./empresas";
-import { FaInfinity, FaInstagram, FaTimes, FaWhatsapp } from "react-icons/fa";
+import {
+  FaEdit,
+  FaInfinity,
+  FaInstagram,
+  FaTimes,
+  FaTrash,
+  FaWhatsapp,
+} from "react-icons/fa";
 import { useState } from "react";
 import { useEffect } from "react";
-import { firestore } from "../lib/firebase";
+import { useMyContext } from "../contexts/Context";
 
 export function List() {
   const [filter, setFilter] = useState();
-  const [filters, setFilters] = useState([]);
-  const [companies, setCompanies] = useState([]);
-
-  async function getCompanies() {
-    const ref = await firestore
-      .collection("clientes")
-      .doc("cidade")
-      .collection("empresas")
-      .orderBy("createdAt", "desc")
-      .get();
-
-    const data = await ref.docs.map((doc) => doc.data());
-    setFilters([]);
-    setCompanies(data);
-  }
+  const { getCompanies, filters, setFilters, companies } = useMyContext();
 
   useEffect(() => {
     getCompanies();
@@ -48,47 +42,43 @@ export function List() {
       align="center"
       w="100%"
     >
-      <Wrap px={2} pt={"5rem"} maxW={700} align="center" w="full">
+      <Wrap px={2} pt={"5rem"} maxW={730} align="center" w="full">
         <Button
           onClick={() => {
             setFilters([]);
             companies.map((empresa) => {
               setFilters((prevState) => [...prevState, empresa.category]);
-              console.log(empresa);
             });
           }}
           w="full"
           fontSize={14}
         >
-          Filtrar resultados:
+          Filtrar empresas:
         </Button>
 
         {filters &&
-          filters.map((item, i) => (
-            <Tag
-              _hover={{ cursor: "pointer" }}
-              border={filter === item ? "1px solid #5B3CD8" : "none"}
-              onClick={() => {
-                filter === item ? setFilter() : setFilter(item);
-              }}
-              key={i}
-            >
-              {filter === item ? (
-                <>
-                  <Text pr={2}>{item}</Text>{" "}
-                  <FaTimes color="#5B3CD8" size={10} />
-                </>
-              ) : (
-                <Text>{item}</Text>
-              )}
-            </Tag>
-          ))}
+          filters
+            .filter((val, id, array) => array.indexOf(val) == id)
+            .map((item, i) => (
+              <Tag
+                _hover={{ cursor: "pointer" }}
+                border={filter === item ? "1px solid #5B3CD8" : "none"}
+                onClick={() => {
+                  filter === item ? setFilter() : setFilter(item);
+                }}
+                key={i}
+              >
+                {filter === item ? (
+                  <>
+                    <Text pr={2}>{item}</Text>
+                    <FaTimes color="#5B3CD8" size={10} />
+                  </>
+                ) : (
+                  <Text>{item}</Text>
+                )}
+              </Tag>
+            ))}
       </Wrap>
-      <Center pt={4} w="full">
-        <Button onClick={getCompanies} fontSize={14}>
-          Atualizar
-        </Button>
-      </Center>
       <Wrap
         spacing={6}
         p="1rem"
@@ -100,8 +90,8 @@ export function List() {
       >
         {companies
           .filter((empresa) => (filter ? empresa.category === filter : true))
-          .map((empresa, i) => (
-            <Card key={i} empresa={empresa} />
+          .map((empresa) => (
+            <Card key={empresa.id} empresa={empresa} />
           ))}
       </Wrap>
     </Flex>
@@ -109,9 +99,13 @@ export function List() {
 }
 
 export const Card = function (props) {
-  const { name, category, whatsapp, address, instagram } = props.empresa;
+  const { handleDeleteCompany, setModalNewCompany, setSelectedCompany } = useMyContext();
+  const { name, category, whatsapp, address, instagram, secure, id } =
+    props.empresa;
+
   return (
     <VStack
+      pos="relative"
       p={6}
       pb={2}
       borderBottom="1px"
@@ -149,6 +143,36 @@ export const Card = function (props) {
           {instagram}
         </Button>
       </Wrap>
+      {!secure && (
+        <IconButton
+          onClick={() => {
+            if (confirm("Deseja excluir a empresa ?")) {
+              handleDeleteCompany(props.empresa);
+            }
+          }}
+          pos="absolute"
+          top={0}
+          right={0}
+          variant="ghost"
+          size="xs"
+          color="red.500"
+          icon={<FaTrash />}
+        />
+      )}
+      {!secure && (
+        <IconButton
+          onClick={() => {
+            setSelectedCompany(props.empresa)
+            setModalNewCompany(true);
+          }}
+          pos="absolute"
+          top={0}
+          right={7}
+          variant="ghost"
+          size="xs"
+          icon={<FaEdit /> }
+        />
+      )}
     </VStack>
   );
 };
