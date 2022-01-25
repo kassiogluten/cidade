@@ -99,7 +99,8 @@ export function List() {
 }
 
 export const Card = function (props) {
-  const { handleDeleteCompany, setModalNewCompany, setSelectedCompany } = useMyContext();
+  const { handleDeleteCompany, setModalNewCompany, setSelectedCompany } =
+    useMyContext();
   const { name, category, whatsapp, address, instagram, secure, id } =
     props.empresa;
 
@@ -162,7 +163,7 @@ export const Card = function (props) {
       {!secure && (
         <IconButton
           onClick={() => {
-            setSelectedCompany(props.empresa)
+            setSelectedCompany(props.empresa);
             setModalNewCompany(true);
           }}
           pos="absolute"
@@ -170,7 +171,7 @@ export const Card = function (props) {
           right={7}
           variant="ghost"
           size="xs"
-          icon={<FaEdit /> }
+          icon={<FaEdit />}
         />
       )}
     </VStack>
